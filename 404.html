@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | MediCare Plus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #00acc1;
+            --accent: #ff7043;
+            --success: #4caf50;
+            --dark: #0a1929;
+            --darker: #051423;
+            --light: #ffffff;
+            --gray: #90a4ae;
+            --gray-light: #e3f2fd;
+            --medical-blue: #0288d1;
+            --medical-green: #2e7d32;
+        }
+
+        body {
+            background-color: var(--light);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 5%;
+            background: var(--light);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+            color: var(--medical-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+        }
+
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-arrow {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* Centered Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            background: var(--light);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 60px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .mobile-nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            padding: 15px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(26, 115, 232, 0.05);
+            border: 1px solid rgba(26, 115, 232, 0.1);
+        }
+
+        .mobile-nav ul li a.active {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            border-color: rgba(26, 115, 232, 0.2);
+        }
+
+        .mobile-nav ul li a:hover {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            transform: translateX(5px);
+            border-color: rgba(26, 115, 232, 0.2);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(26, 115, 232, 0.05);
+            border-radius: 12px;
+            margin: 8px 0;
+            border: 1px solid rgba(26, 115, 232, 0.1);
+            text-align: left;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown-content a {
+            padding: 12px 20px;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            color: #555;
+            transition: all 0.3s ease;
+            justify-content: flex-start;
+        }
+
+        .mobile-dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .mobile-dropdown-toggle i {
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+
+        .mobile-dropdown-toggle.active i {
+            transform: rotate(180deg);
+        }
+
+        .mobile-nav .cta-button {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+
+        /* FIX: Close (X) button should not overlap Home */
+        .mobile-nav-close {
+            top: 10px !important;
+            right: 10px !important;
+            z-index: 2001 !important;
+        }
+
+        .mobile-nav ul {
+            margin-top: 20px !important;
+        }
+
+        /* Close button for mobile menu */
+        .mobile-nav-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 115, 232, 0.1);
+            border: none;
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .mobile-nav-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 404 Page Content */
+        .error-page {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 5% 80px;
+            background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80') no-repeat center/cover;
+            text-align: center;
+        }
+
+        .error-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .error-content {
+            position: relative;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(26, 115, 232, 0.1);
+        }
+
+        .error-number {
+            font-size: 8rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 20px;
+            line-height: 1;
+            text-shadow: 3px 3px 0 rgba(26, 115, 232, 0.1);
+            position: relative;
+            display: inline-block;
+        }
+
+        .error-number::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1), rgba(0, 172, 193, 0.1));
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .error-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .medical-animation {
+            margin: 40px 0;
+            position: relative;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pulse-line {
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+            position: relative;
+            animation: heartbeat 1.2s infinite ease-in-out;
+        }
+
+        .pulse-line::before,
+        .pulse-line::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            left: -5px;
+            animation: pulseDot 1.2s infinite ease-in-out;
+        }
+
+        .pulse-line::before {
+            top: 0;
+        }
+
+        .pulse-line::after {
+            bottom: 0;
+            animation-delay: 0.6s;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .secondary-button {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .secondary-button:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .suggestions {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(26, 115, 232, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .suggestions h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .suggestions-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            list-style: none;
+        }
+
+        .suggestions-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .suggestions-list i {
+            color: var(--success);
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .suggestions-list a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .suggestions-list a:hover {
+            color: var(--primary-dark);
+            padding-left: 5px;
+        }
+
+        /* Appointment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            bottom: 10%;
+            right: 5%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 10%;
+            right: 15%;
+            animation-delay: 4s;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 16px;
+        }
+
+        .footer-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulseDot {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .error-number {
+                font-size: 6rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .error-number {
+                font-size: 5rem;
+            }
+            
+            nav ul, .header-cta {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .error-page {
+                padding: 100px 5% 60px;
+            }
+            
+            .error-content {
+                padding: 30px;
+            }
+            
+            .error-number {
+                font-size: 4rem;
+            }
+            
+            .error-title {
+                font-size: 2rem;
+            }
+            
+            .error-description {
+                font-size: 1rem;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .error-actions button,
+            .error-actions a {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .error-number {
+                font-size: 3.5rem;
+            }
+            
+            .error-title {
+                font-size: 1.8rem;
+            }
+            
+            .suggestions-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-nav {
+                width: 95%;
+                padding: 50px 20px 20px;
+            }
+            
+            .mobile-nav ul li a {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="logo">
+            <img src="./image/Untitled design.webp" alt="STACKLY Logo" class="logo-img">
+            <span>Stackly</span> Plus
+        </a>
+        <nav class="desktop-nav">
+            <ul>
+                <li class="dropdown">
+                    <a href="index.html">Home<i class="fas fa-chevron-down dropdown-arrow"></i></a>
+                    <div class="dropdown-content">
+                       <a href="./index.html"><i class="fas fa-home"></i> Home 1</a>
+                       <a href="./home2.html"><i class="fas fa-home"></i> Home 2</a> 
+                    </div>
+                </li>
+                <li><a href="./services.html">Services</a></li>
+                <li><a href="./departments.html">Departments</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./dashboard.html">Dashboard</a></li>
+                <li><a href="./login.html">Login</a></li>
+            </ul>
+        </nav>
+        <button class="cta-button header-cta" id="bookAppointment">Book Appointment</button>
+        <div class="mobile-menu" id="mobileMenu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="closeMobileNav">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li class="mobile-dropdown">
+                <a href="#" class="mobile-dropdown-toggle">Home<i class="fas fa-chevron-down"></i></a>
+                <div class="mobile-dropdown-content">
+                    <a href="./index.html"><i class="fas fa-home"></i> Home 1</a>
+                    <a href="./home2.html"><i class="fas fa-home"></i> Home 2</a>
+                </div>
+            </li>
+            <li><a href="./services.html">Services</a></li>
+            <li><a href="./departments.html">Departments</a></li>
+            <li><a href="./about.html">About</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./dashboard.html">Dashboard</a></li>
+            <li><a href="./login.html">Login</a></li>
+        </ul>
+        <button class="cta-button" id="mobileAppointment">Book Appointment</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- 404 Error Content -->
+    <main class="error-page">
+        <div class="error-container">
+            <div class="error-content">
+                <div class="floating-element"></div>
+                <div class="floating-element"></div>
+                <div class="floating-element"></div>
+                
+                <div class="error-number">404</div>
+                
+                <div class="medical-animation">
+                    <div class="pulse-line"></div>
+                </div>
+                
+                <h1 class="error-title">Page Not Found</h1>
+                
+                <p class="error-description">
+                    Oops! The page you're looking for seems to be undergoing treatment in our digital hospital. 
+                    It might have been moved, renamed, or is temporarily unavailable. But don't worry, our 
+                    medical team is working to get everything back to normal.
+                </p>
+                
+                <div class="error-actions">
+                    <a href="index.html" class="cta-button">
+                        <i class="fas fa-home"></i> Return to Home
+                    </a>
+                    <button class="cta-button" id="pageAppointment">
+                        <i class="fas fa-calendar-check"></i> Book Appointment
+                    </button>
+                    <a href="contact.html" class="secondary-button">
+                        <i class="fas fa-headset"></i> Contact Support
+                    </a>
+                </div>
+                
+                <div class="suggestions">
+                    <h3>You might be looking for:</h3>
+                    <ul class="suggestions-list">
+                        <li><i class="fas fa-check-circle"></i> <a href="./services.html">Our Medical Services</a></li>
+                        <li><i class="fas fa-check-circle"></i> <a href="./departments.html">Medical Departments</a></li>
+                        <li><i class="fas fa-check-circle"></i> <a href="./404.html">Find a Doctor</a></li>
+                        <li><i class="fas fa-check-circle"></i> <a href="./about.html">About MediCare Plus</a></li>
+                        <li><i class="fas fa-check-circle"></i> <a href="./contact.html">Contact Information</a></li>
+                        <li><i class="fas fa-check-circle"></i> <a href="#" id="suggestionAppointment">Book Appointment</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Stackly Plus</h3>
+                <p>Providing exceptional healthcare services with compassion and cutting-edge medical technology for over 20 years.</p>
+                <div class="social-icons">
+                    <a href="./404.html"><i class="fab fa-facebook-f"></i></a>
+                    <a href="./404.html"><i class="fab fa-twitter"></i></a>
+                    <a href="./404.html"><i class="fab fa-instagram"></i></a>
+                    <a href="./404.html"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="./services.html">Services</a></li>
+                    <li><a href="./departments.html">Departments</a></li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="./contact.html">Contact</a></li>
+                    <li><a href="./dashboard.html">Dashboard</a></li>
+                    <li><a href="./login.html">Login</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Medical Services</h3>
+                <ul class="footer-links">
+                    <li><a href="./404.html">Cardiology</a></li>
+                    <li><a href="./404.html">Neurology</a></li>
+                    <li><a href="./404.html">Pediatrics</a></li>
+                    <li><a href="./404.html">Dental Care</a></li>
+                    <li><a href="./404.html">Ophthalmology</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                       <p><strong>Email:</strong> support@stackly.com</p>
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <p><strong>Location:</strong> Salem, India</p>
+             <p><strong>Hours:</strong> 24/7 Emergency Services</p>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 MediCare Plus Medical Center. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book Appointment</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="department">Medical Department</label>
+                    <select id="department" required>
+                        <option value="">Select Department</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="radiology">Radiology</option>
+                        <option value="dental">Dental Care</option>
+                        <option value="ophthalmology">Ophthalmology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // =========================
+        // HEADER SCROLL EFFECT
+        // =========================
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // =========================
+        // MOBILE MENU OPEN / CLOSE
+        // =========================
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        const closeMobileNav = document.getElementById('closeMobileNav');
+
+        function openMobileNav() {
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobile() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        mobileMenu.addEventListener('click', openMobileNav);
+        closeMobileNav.addEventListener('click', closeMobile);
+        overlay.addEventListener('click', closeMobile);
+
+        // =========================
+        // MOBILE DROPDOWN
+        // =========================
+        const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+
+        mobileDropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dropdown = toggle.nextElementSibling;
+
+                toggle.classList.toggle('active');
+                dropdown.classList.toggle('active');
+            });
+        });
+
+        // =========================
+        // CLOSE MOBILE WHEN CLICKING NAV LINKS
+        // =========================
+        const mobileLinks = document.querySelectorAll('.mobile-nav a');
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                if (this.classList.contains('mobile-dropdown-toggle')) {
+                    e.preventDefault();
+                    return;
+                }
+                closeMobile();
+            });
+        });
+
+        // =========================
+        // APPOINTMENT MODAL
+        // =========================
+        const appointmentButtons = document.querySelectorAll('#bookAppointment, #mobileAppointment, #pageAppointment, #suggestionAppointment');
+        const appointmentModal = document.getElementById('appointmentModal');
+        const closeModal = document.getElementById('closeModal');
+
+        appointmentButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                appointmentModal.style.display = 'flex';
+                closeMobile();
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            appointmentModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === appointmentModal) {
+                appointmentModal.style.display = 'none';
+            }
+        });
+
+        // =========================
+        // SET TODAY DATE FOR APPOINTMENT
+        // =========================
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+        // =========================
+        // FORM SUBMISSION HANDLER
+        // =========================
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            alert('Thank you for booking an appointment! We will contact you shortly to confirm.');
+            appointmentModal.style.display = 'none';
+            
+            // Reset form
+            this.reset();
+        });
+
+        // =========================
+        // 404 PAGE ANIMATIONS
+        // =========================
+        document.addEventListener('DOMContentLoaded', () => {
+            const errorNumber = document.querySelector('.error-number');
+            const errorTitle = document.querySelector('.error-title');
+            const errorDescription = document.querySelector('.error-description');
+            
+            // Animate elements on load
+            setTimeout(() => {
+                errorNumber.style.opacity = '1';
+                errorNumber.style.transform = 'translateY(0)';
+            }, 300);
+            
+            setTimeout(() => {
+                errorTitle.style.opacity = '1';
+                errorTitle.style.transform = 'translateY(0)';
+            }, 600);
+            
+            setTimeout(() => {
+                errorDescription.style.opacity = '1';
+                errorDescription.style.transform = 'translateY(0)';
+            }, 900);
+        });
+
+        // Add animation styles for 404 elements
+        const style = document.createElement('style');
+        style.textContent = `
+            .error-number, .error-title, .error-description {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

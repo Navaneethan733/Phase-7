@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Departments | Stackly Plus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #00acc1;
+            --accent: #ff7043;
+            --success: #4caf50;
+            --dark: #0a1929;
+            --darker: #051423;
+            --light: #ffffff;
+            --gray: #90a4ae;
+            --gray-light: #e3f2fd;
+            --medical-blue: #0288d1;
+            --medical-green: #2e7d32;
+        }
+
+        body {
+            background-color: var(--light);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 5%;
+            background: var(--light);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+            color: var(--medical-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+        }
+
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-arrow {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* Centered Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            background: var(--light);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 60px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .mobile-nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            padding: 15px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(26, 115, 232, 0.05);
+            border: 1px solid rgba(26, 115, 232, 0.1);
+        }
+
+        .mobile-nav ul li a:hover {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            transform: translateX(5px);
+            border-color: rgba(26, 115, 232, 0.2);
+        }
+
+        .mobile-nav ul li a.active {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(26, 115, 232, 0.05);
+            border-radius: 12px;
+            margin: 8px 0;
+            border: 1px solid rgba(26, 115, 232, 0.1);
+            text-align: left;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown-content a {
+            padding: 12px 20px;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            color: #555;
+            transition: all 0.3s ease;
+            justify-content: flex-start;
+        }
+
+        .mobile-dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .mobile-dropdown-toggle i {
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+
+        .mobile-dropdown-toggle.active i {
+            transform: rotate(180deg);
+        }
+
+        .mobile-nav .cta-button {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+
+        /* Close button for mobile menu */
+        .mobile-nav-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 115, 232, 0.1);
+            border: none;
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .mobile-nav-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+               /* FIX: Close (X) button should not overlap Home */
+.mobile-nav-close {
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 2001 !important;
+}
+
+.mobile-nav ul {
+    margin-top: 20px !important;
+}
+
+
+        /* Mobile menu header */
+        .mobile-nav-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav-header .logo {
+            font-size: 22px;
+            justify-content: center;
+        }
+
+        .mobile-nav-header .logo-img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .mobile-nav-header h3 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Department Hero Section */
+        .department-hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            padding: 150px 5% 80px;
+            background: linear-gradient(rgba(0, 86, 179, 0.85), rgba(13, 139, 242, 0.9)), url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center/cover;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        .department-hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.5s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .department-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.8s;
+        }
+
+        /* Department Navigation */
+        .department-nav {
+            background: var(--gray-light);
+            padding: 20px 5%;
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .department-nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .department-nav-btn {
+            background: var(--light);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .department-nav-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.2);
+        }
+
+        .department-nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+        }
+
+        /* Department Grid */
+        .departments-section {
+            padding: 80px 5%;
+            background: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 20px auto 0;
+            line-height: 1.6;
+        }
+
+        .departments-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .department-card {
+            background: var(--light);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border-top: 4px solid var(--primary);
+        }
+
+        .department-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .department-header {
+            padding: 30px;
+            background: linear-gradient(135deg, var(--gray-light), #e8f4fd);
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .department-icon {
+            font-size: 50px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .department-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .department-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .department-content {
+            padding: 30px;
+        }
+
+        .department-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .department-features li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .department-features li:last-child {
+            border-bottom: none;
+        }
+
+        .department-features li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--success);
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+
+        .department-stats {
+            display: flex;
+            justify-content: space-between;
+            background: var(--gray-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .department-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(26, 115, 232, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Specialists Section */
+        .specialists-section {
+            padding: 80px 5%;
+            background: var(--gray-light);
+        }
+
+        .specialists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .specialist-card {
+            background: var(--light);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .specialist-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .specialist-img {
+            height: 250px;
+            background: linear-gradient(135deg, var(--gray-light), #e8f4fd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: var(--primary);
+        }
+
+        .specialist-info {
+            padding: 25px;
+        }
+
+        .specialist-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .specialist-info p {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .specialist-specialty {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .specialist-qualifications {
+            list-style: none;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .specialist-qualifications li {
+            padding: 5px 0;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 5%;
+            background: var(--light);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--gray-light);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: var(--light);
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(26, 115, 232, 0.05);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-answer.active {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 80px 5% 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 16px;
+        }
+
+        .footer-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        /* Appointment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .department-hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .department-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .department-nav-container {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            nav ul, .header-cta {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .department-hero {
+                min-height: 60vh;
+                padding: 130px 5% 60px;
+            }
+            
+            .department-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .department-hero p {
+                font-size: 1rem;
+            }
+            
+            .departments-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .department-nav {
+                top: 70px;
+            }
+            
+            .department-actions {
+                flex-direction: column;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .department-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .department-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .department-nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .department-card {
+                margin: 0 -5%;
+                width: calc(100% + 10%);
+                border-radius: 0;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-nav {
+                width: 95%;
+                padding: 50px 20px 20px;
+            }
+            
+            .mobile-nav ul li a {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="logo">
+    <img src="./image/Untitled design.webp" alt="STACKLY Logo" class="logo-img">
+            <span>Stackly</span> Plus
+        </a>
+        <nav class="desktop-nav">
+            <ul>
+                <li class="dropdown">
+                    <a href="#home">Home <i class="fas fa-chevron-down dropdown-arrow"></i></a>
+                    <div class="dropdown-content">
+                        <a href="./index.html"><i class="fas fa-home"></i> Home 1</a>
+                        <a href="./home2.html"><i class="fas fa-home"></i> Home 2</a>
+                    </div>
+                </li>
+                <li><a href="./services.html">Services</a></li>
+                <li><a href="./departments.html">Departments</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./dashboard.html">Dashboard</a></li>
+                <li><a href="./login.html">Login</a></li>
+            </ul>
+        </nav>
+        <button class="cta-button header-cta" id="bookAppointment">Book Appointment</button>
+        <div class="mobile-menu" id="mobileMenu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="closeMobileNav">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li class="mobile-dropdown">
+                <a href="index.html" class="mobile-dropdown-toggle">Home <i class="fas fa-chevron-down"></i></a>
+                <div class="mobile-dropdown-content">
+                    <a href="./index.html"><i class="fas fa-home"></i> Home 1</a>
+                    <a href="./home2.html"><i class="fas fa-home"></i> Home 2</a>
+                </div>
+            </li>
+            <li><a href="./services.html">Services</a></li>
+                <li><a href="./departments.html">Departments</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./dashboard.html">Dashboard</a></li>
+                <li><a href="./login.html">Login</a></li>
+        </ul>
+        <button class="cta-button" id="mobileAppointment">Book Appointment</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Department Hero Section -->
+    <section class="department-hero">
+        <div class="container">
+            <h1>Our Medical Departments</h1>
+            <p>Explore our specialized medical departments, each equipped with cutting-edge technology and staffed by experienced specialists dedicated to providing comprehensive healthcare.</p>
+            <button class="cta-button" id="heroAppointment">Book Department Consultation</button>
+        </div>
+    </section>
+
+    <!-- Department Navigation -->
+    <div class="department-nav">
+        <div class="department-nav-container">
+            <button class="department-nav-btn active" data-department="all">
+                <i class="fas fa-star"></i> All Departments
+            </button>
+            <button class="department-nav-btn" data-department="cardiology">
+                <i class="fas fa-heartbeat"></i> Cardiology
+            </button>
+            <button class="department-nav-btn" data-department="neurology">
+                <i class="fas fa-brain"></i> Neurology
+            </button>
+            <button class="department-nav-btn" data-department="orthopedics">
+                <i class="fas fa-bone"></i> Orthopedics
+            </button>
+            <button class="department-nav-btn" data-department="pediatrics">
+                <i class="fas fa-baby"></i> Pediatrics
+            </button>
+            <button class="department-nav-btn" data-department="oncology">
+                <i class="fas fa-dna"></i> Oncology
+            </button>
+        </div>
+    </div>
+
+    <!-- Departments Section -->
+    <section class="departments-section" id="departments">
+        <div class="section-title">
+            <h2>Specialized Medical Departments</h2>
+            <p>Comprehensive care across all medical specialties with state-of-the-art facilities</p>
+        </div>
+        <div class="departments-container">
+            <!-- Cardiology Department -->
+            <div class="department-card" data-department="cardiology">
+                <div class="department-header">
+                    <div class="department-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Cardiology & Cardiac Surgery</h3>
+                    <p>Advanced heart care with comprehensive diagnostic and treatment facilities</p>
+                </div>
+                <div class="department-content">
+                    <p>Our Cardiology Department provides complete cardiac care using the latest technology for diagnosing, treating, and preventing heart diseases.</p>
+                    
+                    <ul class="department-features">
+                        <li>Cardiac Catheterization Lab</li>
+                        <li>Echocardiography & Stress Testing</li>
+                        <li>Interventional Cardiology</li>
+                        <li>Heart Failure Management</li>
+                        <li>Cardiac Rehabilitation</li>
+                    </ul>
+                    
+                    <div class="department-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Specialists</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">1500+</span>
+                            <span class="stat-label">Procedures/Yr</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Cath Lab</span>
+                        </div>
+                    </div>
+                    
+                    <div class="department-actions">
+                        <button class="cta-button book-dept-appointment" data-dept="Cardiology">Book Appointment</button>
+                        <a href="./404.html" class="btn-secondary">View Specialists</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neurology Department -->
+            <div class="department-card" data-department="neurology">
+                <div class="department-header">
+                    <div class="department-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Neurology & Neurosurgery</h3>
+                    <p>Comprehensive care for brain, spine, and nervous system disorders</p>
+                </div>
+                <div class="department-content">
+                    <p>Our Neurology Department specializes in the diagnosis and treatment of neurological conditions with advanced neuroimaging and neurophysiology labs.</p>
+                    
+                    <ul class="department-features">
+                        <li>Stroke Unit with 24/7 Coverage</li>
+                        <li>Epilepsy Monitoring Unit</li>
+                        <li>Movement Disorders Clinic</li>
+                        <li>Neuro Rehabilitation</li>
+                        <li>Neuromuscular Disorders Center</li>
+                    </ul>
+                    
+                    <div class="department-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">Neurologists</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Neurosurgeons</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Success Rate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="department-actions">
+                        <button class="cta-button book-dept-appointment" data-dept="Neurology">Book Appointment</button>
+                        <a href="./404.html" class="btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orthopedics Department -->
+            <div class="department-card" data-department="orthopedics">
+                <div class="department-header">
+                    <div class="department-icon">
+                        <i class="fas fa-bone"></i>
+                    </div>
+                    <h3>Orthopedics & Joint Replacement</h3>
+                    <p>Advanced musculoskeletal care and joint replacement surgery</p>
+                </div>
+                <div class="department-content">
+                    <p>Our Orthopedics Department provides comprehensive care for bone, joint, and muscle conditions with minimally invasive surgical techniques.</p>
+                    
+                    <ul class="department-features">
+                        <li>Joint Replacement Surgery</li>
+                        <li>Sports Medicine & Arthroscopy</li>
+                        <li>Spinal Surgery</li>
+                        <li>Hand & Microsurgery</li>
+                        <li>Pediatric Orthopedics</li>
+                    </ul>
+                    
+                    <div class="department-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">15</span>
+                            <span class="stat-label">Surgeons</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Replacements/Yr</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">98%</span>
+                            <span class="stat-label">Patient Satisfaction</span>
+                        </div>
+                    </div>
+                    
+                    <div class="department-actions">
+                        <button class="cta-button book-dept-appointment" data-dept="Orthopedics">Book Appointment</button>
+                        <a href="./404.html" class="btn-secondary">View Procedures</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pediatrics Department -->
+            <div class="department-card" data-department="pediatrics">
+                <div class="department-header">
+                    <div class="department-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <h3>Pediatrics & Neonatology</h3>
+                    <p>Comprehensive healthcare for infants, children, and adolescents</p>
+                </div>
+                <div class="department-content">
+                    <p>Our Pediatrics Department provides specialized care for children in a child-friendly environment with advanced neonatal and pediatric intensive care units.</p>
+                    
+                    <ul class="department-features">
+                        <li>Level III NICU</li>
+                        <li>Pediatric Intensive Care</li>
+                        <li>Child Development Center</li>
+                        <li>Adolescent Medicine</li>
+                        <li>Pediatric Surgery</li>
+                    </ul>
+                    
+                    <div class="department-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">20</span>
+                            <span class="stat-label">Pediatricians</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50</span>
+                            <span class="stat-label">NICU Beds</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Emergency</span>
+                        </div>
+                    </div>
+                    
+                    <div class="department-actions">
+                        <button class="cta-button book-dept-appointment" data-dept="Pediatrics">Book Appointment</button>
+                        <a href="./404.html" class="btn-secondary">Child Health Tips</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oncology Department -->
+            <div class="department-card" data-department="oncology">
+                <div class="department-header">
+                    <div class="department-icon">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3>Oncology & Cancer Care</h3>
+                    <p>Comprehensive cancer diagnosis, treatment, and rehabilitation</p>
+                </div>
+                <div class="department-content">
+                    <p>Our Oncology Department provides multidisciplinary cancer care with advanced treatment modalities including chemotherapy, radiation therapy, and immunotherapy.</p>
+                    
+                    <ul class="department-features">
+                        <li>Medical Oncology</li>
+                        <li>Radiation Oncology</li>
+                        <li>Surgical Oncology</li>
+                        <li>Hematology</li>
+                        <li>Palliative Care</li>
+                    </ul>
+                    
+                    <div class="department-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10</span>
+                            <span class="stat-label">Oncologists</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2</span>
+                            <span class="stat-label">Linear Accelerators</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">85%</span>
+                            <span class="stat-label">Survival Rate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="department-actions">
+                        <button class="cta-button book-dept-appointment" data-dept="Oncology">Book Consultation</button>
+                        <a href="./404.html" class="btn-secondary">Support Services</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gastroenterology Department -->
+            <div class="department-card" data-department="gastro">
+                <div class="department-header">
+                    <div class="department-icon">
+                        <i class="fas fa-stomach"></i>
+                    </div>
+                    <h3>Gastroenterology & Hepatology</h3>
+                    <p>Advanced digestive system care with endoscopy and liver disease management</p>
+                </div>
+                <div class="department-content">
+                    <p>Our Gastroenterology Department provides comprehensive care for digestive disorders with advanced endoscopic procedures and liver disease management.</p>
+                    
+                    <ul class="department-features">
+                        <li>Advanced Endoscopy Unit</li>
+                        <li>Liver Disease Management</li>
+                        <li>Inflammatory Bowel Disease Clinic</li>
+                        <li>Pancreatic Disorders Center</li>
+                        <li>GI Motility Lab</li>
+                    </ul>
+                    
+                    <div class="department-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">Gastroenterologists</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4</span>
+                            <span class="stat-label">Endoscopy Suites</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3000+</span>
+                            <span class="stat-label">Procedures/Yr</span>
+                        </div>
+                    </div>
+                    
+                    <div class="department-actions">
+                        <button class="cta-button book-dept-appointment" data-dept="Gastroenterology">Book Appointment</button>
+                        <a href="./404.html" class="btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialists Section -->
+    <section class="specialists-section">
+        <div class="section-title">
+            <h2>Meet Our Department Heads</h2>
+            <p>Led by experienced specialists with decades of clinical expertise</p>
+        </div>
+        <div class="specialists-grid">
+            <div class="specialist-card">
+                <div class="specialist-img">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="specialist-info">
+                    <h4>Dr. Sarah Johnson</h4>
+                    <p>Head of Cardiology</p>
+                    <span class="specialist-specialty">MD, DM Cardiology, FACC</span>
+                    <p>Over 15 years of experience in interventional cardiology. Performed 5000+ cardiac procedures.</p>
+                    <ul class="specialist-qualifications">
+                        <li>• Fellowship: Cleveland Clinic, USA</li>
+                        <li>• Member: American College of Cardiology</li>
+                        <li>• Specialization: Interventional Cardiology</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="specialist-card">
+                <div class="specialist-img">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="specialist-info">
+                    <h4>Dr. Michael Chen</h4>
+                    <p>Head of Neurology</p>
+                    <span class="specialist-specialty">MD, DM Neurology, PhD</span>
+                    <p>Specialist in stroke management and neurodegenerative disorders. Published 50+ research papers.</p>
+                    <ul class="specialist-qualifications">
+                        <li>• Fellowship: Johns Hopkins, USA</li>
+                        <li>• Member: American Academy of Neurology</li>
+                        <li>• Specialization: Stroke Neurology</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="specialist-card">
+                <div class="specialist-img">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="specialist-info">
+                    <h4>Dr. Lisa Rodriguez</h4>
+                    <p>Head of Pediatrics</p>
+                    <span class="specialist-specialty">MD, DCH, MRCPCH</span>
+                    <p>Expert in pediatric critical care and neonatal medicine. 12+ years of clinical experience.</p>
+                    <ul class="specialist-qualifications">
+                        <li>• Fellowship: Great Ormond Street, UK</li>
+                        <li>• Member: Indian Academy of Pediatrics</li>
+                        <li>• Specialization: Neonatology</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+            <p>Find answers to common questions about our departments</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do I choose the right department for my condition?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>You can consult our primary care physicians first, who will evaluate your condition and refer you to the appropriate specialized department. You can also call our appointment desk at 9876543210 for guidance.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Are emergency services available in all departments?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, our emergency department is staffed 24/7 with specialists from all major departments. We have dedicated emergency rooms for cardiology, neurology, pediatrics, and trauma cases with immediate specialist availability.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    How quickly can I get an appointment with a specialist?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>For routine appointments, we schedule within 24-48 hours. Emergency consultations are available immediately. We also offer same-day appointments for urgent cases and teleconsultation options for follow-ups.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    What insurance plans do you accept?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>We accept all major insurance providers including government health schemes. Our insurance desk will help you with verification and claim processing. You can check our website for the complete list of accepted insurance providers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Stackly Plus</h3>
+                <p>Providing specialized healthcare across 35+ medical departments with state-of-the-art technology and compassionate care.</p>
+                <div class="social-icons">
+                    <a href="./404.html"><i class="fab fa-facebook-f"></i></a>
+                    <a href="./404.html"><i class="fab fa-twitter"></i></a>
+                    <a href="./404.html"><i class="fab fa-instagram"></i></a>
+                    <a href="./404.html"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="./index.html">Home1</a></li>
+                    <li><a href="./home2.html">Home2</a></li> 
+                    <li><a href="./services.html">Services</a></li>
+                    <li><a href="./departments.html">Departments</a></li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="./dashboard.html">Dashboard</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Major Departments</h3>
+                <ul class="footer-links">
+                    <li><a href="./404.html">Cardiology</a></li>
+                    <li><a href="./404.html">Neurology</a></li>
+                    <li><a href="./404.html">Orthopedics</a></li>
+                    <li><a href="./404.html">Pediatrics</a></li>
+                    <li><a href="./404.html">Oncology</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                     <p><strong>Email:</strong> support@stackly.com</p>
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <p><strong>Location:</strong> Salem, India</p>
+             <p><strong>Hours:</strong> 24/7 Emergency Services</p>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Stackly Plus Medical Center. All Rights Reserved. | <a href="#" style="color: #b0b0b0;">Privacy Policy</a> | <a href="#" style="color: #b0b0b0;">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book Department Appointment</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="department">Medical Department</label>
+                    <select id="department" required>
+                        <option value="">Select Department</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="orthopedics">Orthopedics</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="oncology">Oncology</option>
+                        <option value="gastroenterology">Gastroenterology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="symptoms">Brief Description of Symptoms</label>
+                    <textarea id="symptoms" rows="3" placeholder="Please describe your symptoms"></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">Book Department Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+// =========================
+// HEADER SCROLL EFFECT
+// =========================
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    header.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// =========================
+// MOBILE MENU OPEN / CLOSE
+// =========================
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileNav = document.getElementById('mobileNav');
+const overlay = document.getElementById('overlay');
+const closeMobileNav = document.getElementById('closeMobileNav');
+
+function openMobileNav() {
+    mobileNav.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobile() {
+    mobileNav.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+mobileMenu.addEventListener('click', openMobileNav);
+closeMobileNav.addEventListener('click', closeMobile);
+overlay.addEventListener('click', closeMobile);
+
+// =========================
+// MOBILE DROPDOWN
+// =========================
+const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+
+mobileDropdownToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const dropdown = toggle.nextElementSibling;
+        
+        toggle.classList.toggle('active');
+        dropdown.classList.toggle('active');
+    });
+});
+
+// =========================
+// CLOSE MOBILE WHEN CLICKING NAV LINKS
+// =========================
+const mobileLinks = document.querySelectorAll('.mobile-nav a');
+
+mobileLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+        // Don't block dropdown toggle
+        if (this.classList.contains('mobile-dropdown-toggle')) {
+            e.preventDefault();
+            return;
+        }
+        
+        closeMobile();
+    });
+});
+
+// =========================
+// DEPARTMENT FILTERING
+// =========================
+const departmentBtns = document.querySelectorAll('.department-nav-btn');
+const departmentCards = document.querySelectorAll('.department-card');
+
+departmentBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        departmentBtns.forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        btn.classList.add('active');
+        
+        const department = btn.getAttribute('data-department');
+        
+        // Filter department cards
+        departmentCards.forEach(card => {
+            if (department === 'all' || card.getAttribute('data-department') === department) {
+                card.style.display = 'block';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100);
+            } else {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 300);
+            }
+        });
+        
+        // Smooth scroll to departments section
+        document.getElementById('departments').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+});
+
+// =========================
+// APPOINTMENT MODAL
+// =========================
+const appointmentButtons = document.querySelectorAll('#bookAppointment, #heroAppointment, #mobileAppointment, .book-dept-appointment');
+const appointmentModal = document.getElementById('appointmentModal');
+const closeModal = document.getElementById('closeModal');
+const departmentSelect = document.getElementById('department');
+
+appointmentButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        appointmentModal.style.display = 'flex';
+        closeMobile();
+        
+        // Set department if clicked from department card
+        if (button.classList.contains('book-dept-appointment')) {
+            const dept = button.getAttribute('data-dept');
+            departmentSelect.value = dept.toLowerCase();
+        }
+    });
+});
+
+closeModal.addEventListener('click', () => {
+    appointmentModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === appointmentModal) {
+        appointmentModal.style.display = 'none';
+    }
+});
+
+// =========================
+// FAQ ACCORDION
+// =========================
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        
+        // Close all other answers
+        faqQuestions.forEach(q => {
+            if (q !== question) {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('active');
+            }
+        });
+        
+        // Toggle current answer
+        question.classList.toggle('active');
+        answer.classList.toggle('active');
+    });
+});
+
+// =========================
+// SET TODAY DATE FOR APPOINTMENT
+// =========================
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('date').min = today;
+
+// =========================
+// FORM SUBMISSION
+// =========================
+document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const name = document.getElementById('fullName').value;
+    const department = document.getElementById('department').value;
+    
+    // Show success message
+    alert(`Thank you ${name}! Your appointment request for ${department} has been received. We will contact you within 24 hours to confirm.`);
+    
+    // Reset form and close modal
+    this.reset();
+    appointmentModal.style.display = 'none';
+});
+
+// =========================
+// SMOOTH SCROLL
+// =========================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        // Don't block dropdown toggle
+        if (this.classList.contains('mobile-dropdown-toggle')) return;
+        
+        e.preventDefault();
+        const id = this.getAttribute('href');
+        if (id === '#') return;
+        
+        const target = document.querySelector(id);
+        if (!target) return;
+        
+        window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+        });
+        
+        closeMobile();
+    });
+});
+
+// =========================
+// ANIMATE DEPARTMENT CARDS ON LOAD
+// =========================
+window.addEventListener('load', () => {
+    departmentCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+});
+    </script>
+</body>
+</html>

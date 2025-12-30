@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Plus | Our Medical Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #00acc1;
+            --accent: #ff7043;
+            --success: #4caf50;
+            --dark: #0a1929;
+            --darker: #051423;
+            --light: #ffffff;
+            --gray: #90a4ae;
+            --gray-light: #e3f2fd;
+            --medical-blue: #0288d1;
+            --medical-green: #2e7d32;
+        }
+
+        body {
+            background-color: var(--light);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 5%;
+            background: var(--light);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+            color: var(--medical-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+               /* FIX: Close (X) button should not overlap Home */
+.mobile-nav-close {
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 2001 !important;
+}
+
+.mobile-nav ul {
+    margin-top: 20px !important;
+}
+
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-arrow {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* Centered Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            background: var(--light);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 60px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .mobile-nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            padding: 15px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(26, 115, 232, 0.05);
+            border: 1px solid rgba(26, 115, 232, 0.1);
+        }
+
+        .mobile-nav ul li a:hover {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            transform: translateX(5px);
+            border-color: rgba(26, 115, 232, 0.2);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(26, 115, 232, 0.05);
+            border-radius: 12px;
+            margin: 8px 0;
+            border: 1px solid rgba(26, 115, 232, 0.1);
+            text-align: left;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown-content a {
+            padding: 12px 20px;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            color: #555;
+            transition: all 0.3s ease;
+            justify-content: flex-start;
+        }
+
+        .mobile-dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .mobile-dropdown-toggle i {
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+
+        .mobile-dropdown-toggle.active i {
+            transform: rotate(180deg);
+        }
+
+        .mobile-nav .cta-button {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+
+        /* Close button for mobile menu */
+        .mobile-nav-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 115, 232, 0.1);
+            border: none;
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .mobile-nav-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Mobile menu header */
+        .mobile-nav-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav-header .logo {
+            font-size: 22px;
+            justify-content: center;
+        }
+
+        .mobile-nav-header .logo-img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .mobile-nav-header h3 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Page Header Banner */
+        .page-header {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            padding: 180px 5% 80px;
+            background: linear-gradient(rgba(26, 115, 232, 0.85), rgba(26, 115, 232, 0.9)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80') no-repeat center/cover;
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.5s;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.8s;
+        }
+
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-flex;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.3s;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--gray-light);
+        }
+
+        .breadcrumb span {
+            margin: 0 10px;
+            opacity: 0.7;
+        }
+
+        /* Services Page Content */
+        .services-page {
+            padding: 100px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 20px auto 0;
+            line-height: 1.6;
+        }
+
+        /* Services Grid */
+        .services-grid-detailed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .service-detailed-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+
+        .service-detailed-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .service-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .service-detailed-card:hover .service-image img {
+            transform: scale(1.05);
+        }
+
+        .service-content {
+            padding: 30px;
+        }
+
+        .service-icon-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .service-icon-title .icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gray-light), #e8f4fd);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary);
+            margin-right: 15px;
+            transition: all 0.4s ease;
+        }
+
+        .service-detailed-card:hover .service-icon-title .icon {
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+        }
+
+        .service-content h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .service-content p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .service-features li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            color: #555;
+        }
+
+        .service-features li i {
+            color: var(--success);
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .learn-more-btn {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .learn-more-btn:hover {
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Service Process Section */
+        .service-process {
+            padding: 80px 5%;
+            background-color: var(--gray-light);
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .process-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: -30px;
+            width: 60px;
+            height: 2px;
+            background: var(--gray);
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            .process-step:not(:last-child)::after {
+                display: none;
+            }
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .step-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .step-content p {
+            color: #666;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 5%;
+            background: linear-gradient(rgba(26, 115, 232, 0.9), rgba(26, 115, 232, 0.9)), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center/cover;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 80px 5% 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 16px;
+        }
+
+        .footer-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        /* Appointment Form Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .page-header h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .page-header h1 {
+                font-size: 2.3rem;
+            }
+            
+            nav ul, .header-cta {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                min-height: 300px;
+                padding: 150px 5% 60px;
+            }
+            
+            .services-grid-detailed {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+            }
+            
+            .process-step {
+                width: 100%;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+            }
+            
+            .services-grid-detailed {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-nav {
+                width: 95%;
+                padding: 50px 20px 20px;
+            }
+            
+            .mobile-nav ul li a {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="logo">
+    <img src="./image/Untitled design.webp" alt="STACKLY Logo" class="logo-img">
+            <span>Stackly</span> Plus
+        </a>
+        <nav class="desktop-nav">
+            <ul>
+                <li class="dropdown">
+                    <a href="index.html" class="active">Home<i class="fas fa-chevron-down dropdown-arrow"></i></a>
+                    <div class="dropdown-content">
+                       <a href="./index.html"><i class=""></i>Home1</a>
+                    <a href="./home2.html"><i class=""></i>Home2</a> 
+                    </div>
+                </li>
+                <li><a href="./services.html" class="active">Services</a></li>
+                <li><a href="./departments.html">Departments</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./dashboard.html">Dashboard</a></li>
+                <li><a href="./login.html">Login</a></li>
+            </ul>
+        </nav>
+        <button class="cta-button header-cta" id="bookAppointment">Book Appointment</button>
+        <div class="mobile-menu" id="mobileMenu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="closeMobileNav">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li class="mobile-dropdown">
+                <a href="#" class="mobile-dropdown-toggle active">Home<i class="fas fa-chevron-down"></i></a>
+                <div class="mobile-dropdown-content">
+                    <a href="./index.html"><i class=""></i>Home1</a>
+                    <a href="./home2.html"><i class=""></i>Home2</a>
+                </div>
+            </li>
+            <li><a href="./services.html">Services</a></li>
+                <li><a href="./departments.html">Departments</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./dashboard.html">Dashboard</a></li>
+                <li><a href="./login.html">Login</a></li>
+        </ul>
+        <button class="cta-button" id="mobileAppointment">Book Appointment</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span><i class="fas fa-chevron-right"></i></span>
+                <a href="services.html">Services</a>
+            </div>
+            <h1>Our Medical Services</h1>
+            <p>Comprehensive healthcare services delivered with expertise, compassion, and cutting-edge technology.</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-page" id="services">
+        <div class="section-title">
+            <h2>Specialized Medical Care</h2>
+            <p>We offer a wide range of medical services to meet all your healthcare needs with our team of experienced specialists.</p>
+        </div>
+        
+        <div class="services-grid-detailed">
+            <!-- Cardiology Service -->
+            <div class="service-detailed-card" id="cardiology">
+                <div class="service-image">
+                    <img src="./image/cardiology.webp" alt="Cardiology">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Cardiology</h3>
+                    </div>
+                    <p>Advanced cardiac care with cutting-edge diagnostic tools and treatment options for heart conditions, including interventional cardiology and cardiac rehabilitation.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Echocardiography & Stress Tests</li>
+                        <li><i class="fas fa-check-circle"></i> Angioplasty & Stenting</li>
+                        <li><i class="fas fa-check-circle"></i> Pacemaker Implantation</li>
+                        <li><i class="fas fa-check-circle"></i> Cardiac Rehabilitation</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Neurology Service -->
+            <div class="service-detailed-card" id="neurology">
+                <div class="service-image">
+                    <img src="./image/neurology.webp" alt="Neurology">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Neurology</h3>
+                    </div>
+                    <p>Expert neurological care for disorders of the brain, spine, and nervous system, with specialized treatments for epilepsy, stroke, Parkinson's, and migraines.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> EEG & EMG Studies</li>
+                        <li><i class="fas fa-check-circle"></i> Stroke Management</li>
+                        <li><i class="fas fa-check-circle"></i> Epilepsy Treatment</li>
+                        <li><i class="fas fa-check-circle"></i> Headache Clinic</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Pediatrics Service -->
+            <div class="service-detailed-card" id="pediatrics">
+                <div class="service-image">
+                    <img src="./image/pediatrics.webp" alt="Pediatrics">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3>Pediatrics</h3>
+                    </div>
+                    <p>Comprehensive healthcare for infants, children, and adolescents in a child-friendly environment, focusing on growth, development, and preventive care.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Well-Child Checkups</li>
+                        <li><i class="fas fa-check-circle"></i> Vaccinations & Immunizations</li>
+                        <li><i class="fas fa-check-circle"></i> Childhood Asthma & Allergies</li>
+                        <li><i class="fas fa-check-circle"></i> Developmental Assessments</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Radiology Service -->
+            <div class="service-detailed-card" id="radiology">
+                <div class="service-image">
+                    <img src="./image/Radiology & Imaging.webp" alt="Radiology">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-x-ray"></i>
+                        </div>
+                        <h3>Radiology & Imaging</h3>
+                    </div>
+                    <p>State-of-the-art imaging services including MRI, CT scan, ultrasound, X-ray, and mammography with advanced diagnostic capabilities.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> MRI & CT Scans</li>
+                        <li><i class="fas fa-check-circle"></i> Digital X-Ray</li>
+                        <li><i class="fas fa-check-circle"></i> Ultrasound & Doppler</li>
+                        <li><i class="fas fa-check-circle"></i> Mammography</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Dental Care Service -->
+            <div class="service-detailed-card" id="dental">
+                <div class="service-image">
+                    <img src="./image/Dental Care.webp" alt="Dental Care">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <h3>Dental Care</h3>
+                    </div>
+                    <p>Complete dental solutions including preventive, restorative, cosmetic dentistry, orthodontics, and oral surgery with modern equipment and techniques.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Routine Checkups & Cleaning</li>
+                        <li><i class="fas fa-check-circle"></i> Teeth Whitening</li>
+                        <li><i class="fas fa-check-circle"></i> Dental Implants</li>
+                        <li><i class="fas fa-check-circle"></i> Orthodontics (Braces)</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Ophthalmology Service -->
+            <div class="service-detailed-card" id="ophthalmology">
+                <div class="service-image">
+                    <img src="./image/ophthalmology.webp" alt="Ophthalmology">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Ophthalmology</h3>
+                    </div>
+                    <p>Comprehensive eye care including vision correction, cataract surgery, glaucoma treatment, retinal care, and pediatric ophthalmology services.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Cataract Surgery</li>
+                        <li><i class="fas fa-check-circle"></i> LASIK & Vision Correction</li>
+                        <li><i class="fas fa-check-circle"></i> Glaucoma Management</li>
+                        <li><i class="fas fa-check-circle"></i> Retinal Treatments</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-title">
+            <h2>Other Specialized Services</h2>
+            <p>In addition to our core services, we offer comprehensive care in these specialized medical areas.</p>
+        </div>
+        
+        <div class="services-grid-detailed">
+            <!-- Orthopedics Service -->
+            <div class="service-detailed-card">
+                <div class="service-image">
+                    <img src="./image/orthopedics.webp" alt="Orthopedics">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-bone"></i>
+                        </div>
+                        <h3>Orthopedics</h3>
+                    </div>
+                    <p>Comprehensive bone and joint care including arthritis treatment, sports injuries, joint replacement, and fracture management.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Joint Replacement Surgery</li>
+                        <li><i class="fas fa-check-circle"></i> Arthroscopy</li>
+                        <li><i class="fas fa-check-circle"></i> Sports Injury Management</li>
+                        <li><i class="fas fa-check-circle"></i> Spinal Surgery</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Dermatology Service -->
+            <div class="service-detailed-card">
+                <div class="service-image">
+                    <img src="./image/dermatology.webp" alt="Dermatology">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-allergies"></i>
+                        </div>
+                        <h3>Dermatology</h3>
+                    </div>
+                    <p>Skin, hair, and nail care with treatments for acne, eczema, psoriasis, skin cancer, and cosmetic dermatology procedures.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> Acne & Scar Treatment</li>
+                        <li><i class="fas fa-check-circle"></i> Skin Cancer Screening</li>
+                        <li><i class="fas fa-check-circle"></i> Laser Treatments</li>
+                        <li><i class="fas fa-check-circle"></i> Cosmetic Procedures</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <!-- Emergency Care Service -->
+            <div class="service-detailed-card">
+                <div class="service-image">
+                    <img src="./image/Emergency Care.webp" alt="Emergency Care">
+                </div>
+                <div class="service-content">
+                    <div class="service-icon-title">
+                        <div class="icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h3>Emergency Care</h3>
+                    </div>
+                    <p>24/7 emergency medical services with rapid response, trauma care, critical care, and specialized emergency physicians.</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check-circle"></i> 24/7 Emergency Department</li>
+                        <li><i class="fas fa-check-circle"></i> Trauma & Critical Care</li>
+                        <li><i class="fas fa-check-circle"></i> Ambulance Services</li>
+                        <li><i class="fas fa-check-circle"></i> Urgent Care Clinic</li>
+                    </ul>
+                    <a href="./404.html" class="learn-more-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Process Section -->
+    <section class="service-process">
+        <div class="section-title">
+            <h2>Our Service Process</h2>
+            <p>We follow a systematic approach to ensure you receive the best possible care and treatment.</p>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Consultation</h4>
+                    <p>Initial assessment with a specialist to understand your condition and medical history.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Diagnosis</h4>
+                    <p>Advanced diagnostic tests and imaging to accurately identify your health condition.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Treatment Plan</h4>
+                    <p>Personalized treatment plan developed by our multidisciplinary medical team.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Follow-up Care</h4>
+                    <p>Continuous monitoring and follow-up appointments to ensure complete recovery.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Need a Specific Medical Service?</h2>
+        <p>Schedule an appointment with our specialists today and get personalized care for your health needs.</p>
+        <button class="cta-button" id="ctaAppointment">Book Appointment Now</button>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Stackly Plus</h3>
+                <p>Providing exceptional healthcare services with compassion and cutting-edge medical technology for over 20 years.</p>
+                <div class="social-icons">
+                    <a href="./404.html"><i class="fab fa-facebook-f"></i></a>
+                    <a href="./404.html"><i class="fab fa-twitter"></i></a>
+                    <a href="./404.html"><i class="fab fa-instagram"></i></a>
+                    <a href="./404.html"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="./index.html">Home1</a></li>
+                     <li><a href="./home2.html">Home2</a></li>
+                    <li><a href="./services.html">Services</a></li>
+                    <li><a href="./departments.html">Departments</a></li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="./contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Medical Services</h3>
+                <ul class="footer-links">
+                    <li><a href="./404.html">Cardiology</a></li>
+                    <li><a href="./404.html">Neurology</a></li>
+                    <li><a href="./404.html">Pediatrics</a></li>
+                    <li><a href="./404.html">Dental Care</a></li>
+                    <li><a href="./404.html">Ophthalmology</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                     <p><strong>Email:</strong> support@stackly.com</p>
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <p><strong>Location:</strong> Salem, India</p>
+             <p><strong>Hours:</strong> 24/7 Emergency Services</p>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 StacklyPlus Medical Center. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book Appointment</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="department">Medical Department</label>
+                    <select id="department" required>
+                        <option value="">Select Department</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="radiology">Radiology</option>
+                        <option value="dental">Dental Care</option>
+                        <option value="ophthalmology">Ophthalmology</option>
+                        <option value="orthopedics">Orthopedics</option>
+                        <option value="dermatology">Dermatology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+// =========================
+// HEADER SCROLL EFFECT
+// =========================
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    header.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// =========================
+// MOBILE MENU OPEN / CLOSE
+// =========================
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileNav = document.getElementById('mobileNav');
+const overlay = document.getElementById('overlay');
+const closeMobileNav = document.getElementById('closeMobileNav');
+
+function openMobileNav() {
+    mobileNav.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobile() {
+    mobileNav.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+mobileMenu.addEventListener('click', openMobileNav);
+closeMobileNav.addEventListener('click', closeMobile);
+overlay.addEventListener('click', closeMobile);
+
+// =========================
+// MOBILE DROPDOWN (FIXED)
+// =========================
+const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+
+mobileDropdownToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const dropdown = toggle.nextElementSibling;
+
+        toggle.classList.toggle('active');
+        dropdown.classList.toggle('active');
+    });
+});
+
+// =========================
+// CLOSE MOBILE WHEN CLICKING NAV LINKS (EXCEPT DROPDOWNS)
+// =========================
+const mobileLinks = document.querySelectorAll('.mobile-nav a');
+
+mobileLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+
+        // Prevent closing if it's dropdown toggle
+        if (this.classList.contains('mobile-dropdown-toggle')) {
+            e.preventDefault();
+            return;
+        }
+
+        closeMobile();
+    });
+});
+
+// =========================
+// APPOINTMENT MODAL
+// =========================
+const appointmentButtons = document.querySelectorAll('#bookAppointment, #ctaAppointment, #mobileAppointment, .header-cta');
+const appointmentModal = document.getElementById('appointmentModal');
+const closeModal = document.getElementById('closeModal');
+
+appointmentButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        appointmentModal.style.display = 'flex';
+        closeMobile();
+    });
+});
+
+closeModal.addEventListener('click', () => {
+    appointmentModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === appointmentModal) {
+        appointmentModal.style.display = 'none';
+    }
+});
+
+// =========================
+// SET TODAY DATE FOR APPOINTMENT
+// =========================
+document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+// =========================
+// SMOOTH SCROLL (FIXED)
+// =========================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+
+        // Don't block dropdown toggle
+        if (this.classList.contains('mobile-dropdown-toggle')) return;
+
+        const href = this.getAttribute('href');
+        
+        // Only process if it's an internal page anchor
+        if (href.startsWith('#') && href !== '#') {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (!target) return;
+
+            window.scrollTo({
+                top: target.offsetTop - 80,
+                behavior: 'smooth'
+            });
+
+            closeMobile();
+        }
+    });
+});
+
+// =========================
+// FORM SUBMISSION HANDLER
+// =========================
+document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // In a real application, you would send this data to a server
+    alert('Thank you for booking an appointment! We will contact you shortly to confirm.');
+    appointmentModal.style.display = 'none';
+    
+    // Reset form
+    this.reset();
+});
+
+// =========================
+// HIGHLIGHT ACTIVE SERVICE LINK IN NAV
+// =========================
+const serviceLinks = document.querySelectorAll('nav a[href="services.html"]');
+serviceLinks.forEach(link => {
+    link.classList.add('active');
+});
+    </script>
+
+</body>
+</html>

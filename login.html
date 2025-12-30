@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Stackly Plus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #00acc1;
+            --accent: #ff7043;
+            --success: #4caf50;
+            --dark: #0a1929;
+            --darker: #051423;
+            --light: #ffffff;
+            --gray: #90a4ae;
+            --gray-light: #e3f2fd;
+            --medical-blue: #0288d1;
+            --medical-green: #2e7d32;
+        }
+
+        body {
+            background-color: var(--light);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 5%;
+            background: var(--light);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+            color: var(--medical-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+        }
+
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-arrow {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            background: var(--light);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 60px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .mobile-nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            padding: 15px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(26, 115, 232, 0.05);
+            border: 1px solid rgba(26, 115, 232, 0.1);
+        }
+
+        .mobile-nav ul li a:hover {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            transform: translateX(5px);
+            border-color: rgba(26, 115, 232, 0.2);
+        }
+
+        .mobile-nav ul li a.active {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Mobile Dropdown */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(26, 115, 232, 0.05);
+            border-radius: 12px;
+            margin: 8px 0;
+            border: 1px solid rgba(26, 115, 232, 0.1);
+            text-align: left;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown-content a {
+            padding: 12px 20px;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            color: #555;
+            transition: all 0.3s ease;
+            justify-content: flex-start;
+        }
+
+        .mobile-dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .mobile-dropdown-toggle i {
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+
+        .mobile-dropdown-toggle.active i {
+            transform: rotate(180deg);
+        }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 115, 232, 0.1);
+            border: none;
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            z-index: 2001;
+        }
+
+        .mobile-nav-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+                       /* FIX: Close (X) button should not overlap Home */
+.mobile-nav-close {
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 2001 !important;
+}
+
+.mobile-nav ul {
+    margin-top: 20px !important;
+}
+
+        /* Appointment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal-form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .modal-form-group input,
+        .modal-form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-form-group input:focus,
+        .modal-form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        /* Login Hero */
+        .login-hero {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            padding: 150px 5% 80px;
+            background: linear-gradient(rgba(26, 115, 232, 0.85), rgba(26, 115, 232, 0.9)), url('https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80') no-repeat center/cover;
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .login-hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.5s;
+        }
+
+        .login-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.8s;
+        }
+
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-flex;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.3s;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--gray-light);
+        }
+
+        .breadcrumb span {
+            margin: 0 10px;
+            opacity: 0.7;
+        }
+
+        /* Login Container */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 5%;
+            min-height: calc(100vh - 400px);
+            background-color: var(--gray-light);
+        }
+
+        .login-wrapper {
+            display: flex;
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-image {
+            flex: 1;
+            background: linear-gradient(rgba(26, 115, 232, 0.8), rgba(26, 115, 232, 0.9)), url('https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80') no-repeat center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 40px;
+            display: none;
+        }
+
+        @media (min-width: 992px) {
+            .login-image {
+                display: flex;
+            }
+        }
+
+        .login-image h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-image p {
+            text-align: center;
+            opacity: 0.9;
+            max-width: 400px;
+        }
+
+        .login-image-features {
+            margin-top: 40px;
+            list-style: none;
+        }
+
+        .login-image-features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-image-features i {
+            margin-right: 10px;
+            color: var(--medical-blue);
+            font-size: 20px;
+        }
+
+        /* Login Form Section */
+        .login-form-section {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-header {
+            margin-bottom: 40px;
+        }
+
+        .login-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-header p {
+            color: #666;
+        }
+
+        .login-header p a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-header p a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-left: 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: #999;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus + i {
+            color: var(--primary);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: var(--primary);
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(-1px);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 20px;
+            color: #666;
+            font-size: 14px;
+            position: relative;
+        }
+
+        /* Social Login */
+        .social-login {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .social-btn {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn.google {
+            color: #DB4437;
+        }
+
+        .social-btn.google:hover {
+            border-color: #DB4437;
+            background: rgba(219, 68, 55, 0.05);
+        }
+
+        .social-btn.facebook {
+            color: #4267B2;
+        }
+
+        .social-btn.facebook:hover {
+            border-color: #4267B2;
+            background: rgba(66, 103, 178, 0.05);
+        }
+
+        .social-btn i {
+            font-size: 18px;
+        }
+
+        /* Signup Link */
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .signup-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* User Type Selection */
+        .user-type {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-option:hover {
+            background: rgba(26, 115, 232, 0.1);
+        }
+
+        .user-option.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .user-option i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .user-option span {
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 60px 5% 30px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links i {
+            margin-right: 10px;
+            color: var(--primary);
+            width: 16px;
+        }
+
+        .footer-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .login-hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .login-hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .login-wrapper {
+                flex-direction: column;
+            }
+            
+            .login-image {
+                display: none;
+            }
+            
+            nav ul, .header-cta {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-hero {
+                min-height: 300px;
+                padding: 130px 5% 60px;
+            }
+            
+            .login-form-section {
+                padding: 30px;
+            }
+            
+            .social-login {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-type {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .login-hero p {
+                font-size: 1rem;
+            }
+            
+            .login-form-section {
+                padding: 25px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-nav {
+                width: 95%;
+                padding: 50px 20px 20px;
+            }
+            
+            .mobile-nav ul li a {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="logo">
+            <img src="./image/Untitled design.webp" alt="STACKLY Logo" class="logo-img">
+            <span>Stackly</span> Plus
+        </a>
+        <nav class="desktop-nav">
+            <ul>
+                <li class="dropdown">
+                    <a href="index.html">Home<i class="fas fa-chevron-down dropdown-arrow"></i></a>
+                    <div class="dropdown-content">
+                        <a href="./index.html"><i class="fas fa-home"></i>Home1</a>
+                        <a href="./home2.html"><i class="fas fa-home"></i>Home2</a> 
+                    </div>
+                </li>
+                <li><a href="./services.html">Services</a></li>
+                <li><a href="./departments.html">Departments</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./login.html" class="active">Login</a></li>
+            </ul>
+        </nav>
+        <button class="cta-button header-cta" id="bookAppointment">Book Appointment</button>
+        <div class="mobile-menu" id="mobileMenu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" id="closeMobileNav">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li class="mobile-dropdown">
+                <a href="#" class="mobile-dropdown-toggle">Home<i class="fas fa-chevron-down"></i></a>
+                <div class="mobile-dropdown-content">
+                    <a href="./index.html"><i class="fas fa-home"></i>Home1</a>
+                    <a href="./home2.html"><i class="fas fa-home"></i>Home2</a>
+                </div>
+            </li>
+            <li><a href="./services.html">Services</a></li>
+            <li><a href="./departments.html">Departments</a></li>
+            <li><a href="./about.html">About</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./login.html" class="active">Login</a></li>
+        </ul>
+        <button class="cta-button" id="mobileAppointment">Book Appointment</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Login Hero -->
+    <section class="login-hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span><i class="fas fa-chevron-right"></i></span>
+                <a href="login.html">Login</a>
+            </div>
+            <h1>Welcome Back</h1>
+            <p>Access your Stackly Plus account to manage appointments, view medical records, and connect with healthcare providers.</p>
+        </div>
+    </section>
+
+    <!-- Login Container -->
+    <section class="login-container">
+        <div class="login-wrapper">
+            <!-- Left Side - Image/Info (Hidden on mobile) -->
+            <div class="login-image">
+                <h2>Your Health, Our Priority</h2>
+                <p>Access comprehensive healthcare services through your personalized account.</p>
+                
+                <ul class="login-image-features">
+                    <li><i class="fas fa-calendar-check"></i> Manage Appointments</li>
+                    <li><i class="fas fa-file-medical"></i> Access Medical Records</li>
+                    <li><i class="fas fa-comments"></i> Connect with Doctors</li>
+                    <li><i class="fas fa-prescription"></i> View Prescriptions</li>
+                    <li><i class="fas fa-bell"></i> Get Health Reminders</li>
+                </ul>
+                
+                <div style="margin-top: 40px;">
+                    <p>Don't have an account?</p>
+                    <a href="signup.html" class="cta-button" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); margin-top: 15px;">Create Account</a>
+                </div>
+            </div>
+            
+            <!-- Right Side - Login Form -->
+            <div class="login-form-section">
+                <div class="login-header">
+                    <h2>Login to Your Account</h2>
+                    <p>Enter your credentials to access your medical portal. <br>New user? <a href="signup.html">Create an account</a></p>
+                </div>
+                
+                <!-- User Type Selection -->
+                <div class="user-type" id="userType">
+                    <div class="user-option active" data-type="patient">
+                        <i class="fas fa-user"></i>
+                        <span>Patient</span>
+                    </div>
+                    <div class="user-option" data-type="doctor">
+                        <i class="fas fa-user-md"></i>
+                        <span>Doctor</span>
+                    </div>
+                    <div class="user-option" data-type="staff">
+                        <i class="fas fa-users"></i>
+                        <span>Staff</span>
+                    </div>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email address" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                        <i class="fas fa-lock"></i>
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        <span id="loginButtonText">Login</span>
+                        <i class="fas fa-spinner fa-spin" id="loginSpinner" style="display: none; margin-left: 10px;"></i>
+                    </button>
+                    
+                    <div class="divider">
+                        <span>Or continue with</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <a href="./404.html" class="social-btn google" id="googleLogin">
+                            <i class="fab fa-google"></i>
+                            <span>Google</span>
+                        </a>
+                        <a href="./404.html" class="social-btn facebook" id="facebookLogin">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                    </div>
+                    
+                    <div class="signup-link">
+                        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Stackly Plus</h3>
+                <p>Providing exceptional healthcare services with compassion and cutting-edge medical technology for over 20 years.</p>
+                <div class="social-icons">
+                    <a href="./404.html"><i class="fab fa-facebook-f"></i></a>
+                    <a href="./404.html"><i class="fab fa-twitter"></i></a>
+                    <a href="./404.html"><i class="fab fa-instagram"></i></a>
+                    <a href="./404.html"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="departments.html">Departments</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Patient Portal</h3>
+                <ul class="footer-links">
+                    <li><a href="./404.html">Patient Login</a></li>
+                    <li><a href="./404.html">Patient Signup</a></li>
+                    <li><a href="./404.html">My Appointments</a></li>
+                    <li><a href="./404.html">Medical Records</a></li>
+                    <li><a href="./404.html">Prescriptions</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <p><strong>Email:</strong> support@stackly.com</p>
+                    <p><strong>Phone:</strong> +91 98765 43210</p>
+                    <p><strong>Location:</strong> Salem, India</p>
+                    <p><strong>Hours:</strong> 24/7 Emergency Services</p>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Stackly Plus Medical Center. All Rights Reserved. | Privacy Policy| Terms of Service</p>
+        </div>
+    </footer>
+
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book Appointment</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="appointmentForm">
+                <div class="modal-form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="department">Medical Department</label>
+                    <select id="department" required>
+                        <option value="">Select Department</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="radiology">Radiology</option>
+                        <option value="dental">Dental Care</option>
+                    </select>
+                </div>
+                <div class="modal-form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // =========================
+        // HEADER SCROLL EFFECT
+        // =========================
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // =========================
+        // MOBILE MENU OPEN / CLOSE
+        // =========================
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        const closeMobileNav = document.getElementById('closeMobileNav');
+
+        function openMobileNav() {
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobile() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        mobileMenu.addEventListener('click', openMobileNav);
+        closeMobileNav.addEventListener('click', closeMobile);
+        overlay.addEventListener('click', closeMobile);
+
+        // =========================
+        // MOBILE DROPDOWN
+        // =========================
+        const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+
+        mobileDropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dropdown = toggle.nextElementSibling;
+                toggle.classList.toggle('active');
+                dropdown.classList.toggle('active');
+            });
+        });
+
+        // =========================
+        // APPOINTMENT MODAL
+        // =========================
+        const appointmentButtons = document.querySelectorAll('#bookAppointment, #mobileAppointment');
+        const appointmentModal = document.getElementById('appointmentModal');
+        const closeModal = document.getElementById('closeModal');
+
+        appointmentButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                appointmentModal.style.display = 'flex';
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            appointmentModal.style.display = 'none';
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === appointmentModal || e.target === overlay) {
+                appointmentModal.style.display = 'none';
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // =========================
+        // SET TODAY DATE FOR APPOINTMENT
+        // =========================
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+
+        // =========================
+        // APPOINTMENT FORM SUBMISSION
+        // =========================
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                department: document.getElementById('department').value,
+                date: document.getElementById('date').value
+            };
+            
+            // Validate
+            if (!formData.name || !formData.phone || !formData.email || !formData.department || !formData.date) {
+                alert('Please fill all required fields!');
+                return;
+            }
+            
+            // Show success message
+            alert(`Appointment booked successfully!\nWe'll contact you at ${formData.phone} to confirm.`);
+            
+            // Close modal
+            appointmentModal.style.display = 'none';
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Reset form
+            this.reset();
+            
+            // Reset date to today
+            document.getElementById('date').min = new Date().toISOString().split('T')[0];
+        });
+
+        // =========================
+        // USER TYPE SELECTION
+        // =========================
+        const userOptions = document.querySelectorAll('.user-option');
+        userOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                userOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                const userType = option.getAttribute('data-type');
+                console.log('Selected user type:', userType);
+            });
+        });
+
+        // =========================
+        // PASSWORD VISIBILITY TOGGLE
+        // =========================
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle eye icon
+            const eyeIcon = togglePassword.querySelector('i');
+            if (type === 'text') {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+
+        // =========================
+        // LOGIN FORM SUBMISSION
+        // =========================
+        const loginForm = document.getElementById('loginForm');
+        const loginButton = document.getElementById('loginButton');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginSpinner = document.getElementById('loginSpinner');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const userType = document.querySelector('.user-option.active').getAttribute('data-type');
+            const rememberMe = document.getElementById('remember').checked;
+            
+            // Form validation
+            if (!email || !password) {
+                showMessage('Please fill in all fields', 'error');
+                loginForm.classList.add('shake');
+                setTimeout(() => loginForm.classList.remove('shake'), 500);
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Show loading state
+            loginButton.disabled = true;
+            loginButtonText.textContent = 'Logging in...';
+            loginSpinner.style.display = 'inline-block';
+            
+            try {
+                // In a real application, this would be an API call
+                await simulateLoginRequest(email, password, userType);
+                
+                // Show success message
+                showMessage(`Login successful! Welcome ${userType}`, 'success');
+                
+                // Redirect based on user type
+                setTimeout(() => {
+                    switch(userType) {
+                        case 'patient':
+                            window.location.href = 'patient-dashboard.html';
+                            break;
+                        case 'doctor':
+                            window.location.href = 'doctor-dashboard.html';
+                            break;
+                        case 'staff':
+                            window.location.href = 'staff-dashboard.html';
+                            break;
+                        default:
+                            window.location.href = 'dashboard.html';
+                    }
+                }, 1500);
+                
+            } catch (error) {
+                // Show error message
+                showMessage(error.message, 'error');
+                
+                // Reset button state
+                loginButton.disabled = false;
+                loginButtonText.textContent = 'Login';
+                loginSpinner.style.display = 'none';
+            }
+        });
+
+        // =========================
+        // SIMULATE LOGIN REQUEST
+        // =========================
+        function simulateLoginRequest(email, password, userType) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // Mock validation - In real app, this would be a server call
+                    const testUsers = {
+                        'patient@example.com': { password: 'password123', type: 'patient' },
+                        'doctor@example.com': { password: 'doctor123', type: 'doctor' },
+                        'staff@example.com': { password: 'staff123', type: 'staff' },
+                        'demo@stacklyplus.com': { password: 'demo123', type: 'patient' }
+                    };
+                    
+                    if (testUsers[email] && testUsers[email].password === password) {
+                        if (testUsers[email].type === userType) {
+                            resolve({ success: true, userType });
+                        } else {
+                            reject(new Error('Please select correct user type'));
+                        }
+                    } else {
+                        reject(new Error('Invalid email or password'));
+                    }
+                }, 1500); // Simulate network delay
+            });
+        }
+
+        // =========================
+        // EMAIL VALIDATION
+        // =========================
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // =========================
+        // SHOW MESSAGE FUNCTION
+        // =========================
+        function showMessage(message, type) {
+            // Remove existing message
+            const existingMessage = document.querySelector('.login-message');
+            if (existingMessage) existingMessage.remove();
+            
+            // Create new message element
+            const messageElement = document.createElement('div');
+            messageElement.className = `login-message ${type}`;
+            messageElement.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            // Add styles for message
+            const style = document.createElement('style');
+            style.textContent = `
+                .login-message {
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    z-index: 9999;
+                    animation: slideIn 0.3s ease;
+                    max-width: 350px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                }
+                .login-message.success {
+                    background: #4caf50;
+                    color: white;
+                    border-left: 5px solid #2e7d32;
+                }
+                .login-message.error {
+                    background: #ff7043;
+                    color: white;
+                    border-left: 5px solid #d84315;
+                }
+                .login-message i {
+                    font-size: 20px;
+                }
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            
+            document.head.appendChild(style);
+            document.body.appendChild(messageElement);
+            
+            // Remove message after 5 seconds
+            setTimeout(() => {
+                messageElement.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (messageElement.parentNode) {
+                        messageElement.parentNode.removeChild(messageElement);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+
+        // =========================
+        // DEMO LOGIN CREDENTIALS
+        // =========================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pre-fill demo credentials for testing
+            const urlParams = new URLSearchParams(window.location.search);
+            const demo = urlParams.get('demo');
+            
+            if (demo === 'true') {
+                document.getElementById('email').value = 'demo@stacklyplus.com';
+                document.getElementById('password').value = 'demo123';
+                showMessage('Demo credentials loaded. Click Login to continue.', 'info');
+            }
+            
+            // Add demo button
+            const demoButton = document.createElement('button');
+            demoButton.className = 'cta-button';
+            demoButton.innerHTML = '<i class="fas fa-user-secret"></i> Try Demo Account';
+            demoButton.style.marginTop = '20px';
+            demoButton.style.width = '100%';
+            demoButton.style.backgroundColor = 'var(--secondary)';
+            
+            demoButton.addEventListener('click', () => {
+                document.getElementById('email').value = 'demo@stacklyplus.com';
+                document.getElementById('password').value = 'demo123';
+                document.querySelector('.user-option[data-type="patient"]').click();
+                showMessage('Demo credentials loaded. Click Login to continue.', 'info');
+            });
+            
+            // Add after the form
+            const form = document.getElementById('loginForm');
+            form.parentNode.insertBefore(demoButton, form.nextSibling);
+        });
+    </script>
+</body>
+</html>

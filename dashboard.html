@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Plus | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --secondary: #00acc1;
+            --accent: #ff7043;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --dark: #0a1929;
+            --darker: #051423;
+            --light: #ffffff;
+            --gray: #90a4ae;
+            --gray-light: #e3f2fd;
+            --medical-blue: #0288d1;
+            --medical-green: #2e7d32;
+            --sidebar-bg: #f8fbff;
+        }
+
+        html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+
+        body {
+            background-color: var(--light);
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        /* Header Styles - Same as main site */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 10px 5%;
+            background: var(--light);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+            color: var(--medical-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .dashboard-container, 
+.dashboard-main, 
+.dashboard-sidebar {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 14px;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-arrow {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        /* Mobile Menu - Fixed to match home page */
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* Mobile Navigation - Fixed to match home page exactly */
+        .mobile-nav {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            background: var(--light);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 60px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .mobile-nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            padding: 15px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(26, 115, 232, 0.05);
+            border: 1px solid rgba(26, 115, 232, 0.1);
+        }
+
+        .mobile-nav ul li a:hover {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--primary);
+            transform: translateX(5px);
+            border-color: rgba(26, 115, 232, 0.2);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(26, 115, 232, 0.05);
+            border-radius: 12px;
+            margin: 8px 0;
+            border: 1px solid rgba(26, 115, 232, 0.1);
+            text-align: left;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown-content a {
+            padding: 12px 20px;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            color: #555;
+            transition: all 0.3s ease;
+            justify-content: flex-start;
+        }
+
+        .mobile-dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .mobile-dropdown-toggle i {
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+
+        .mobile-dropdown-toggle.active i {
+            transform: rotate(180deg);
+        }
+
+        .mobile-nav .cta-button {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+
+        /* Close button for mobile menu */
+        .mobile-nav-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(26, 115, 232, 0.1);
+            border: none;
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .mobile-nav-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+               /* FIX: Close (X) button should not overlap Home */
+.mobile-nav-close {
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 2001 !important;
+}
+
+.mobile-nav ul {
+    margin-top: 20px !important;
+}
+
+
+        /* Mobile menu header */
+        .mobile-nav-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav-header .logo {
+            font-size: 22px;
+            justify-content: center;
+        }
+
+        .mobile-nav-header .logo-img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .mobile-nav-header h3 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Dashboard Sidebar */
+        .dashboard-sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            padding: 30px 20px;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+            color: white;
+        }
+
+        .user-profile h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .user-profile p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-menu a.active {
+            background: linear-gradient(135deg, var(--primary), var(--medical-blue));
+            color: white;
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.2);
+        }
+
+        .sidebar-menu a i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+        }
+
+        .sidebar-footer {
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* Dashboard Main Content */
+        .dashboard-main {
+            flex: 1;
+            padding: 30px;
+            background-color: #f5f9ff;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .dashboard-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Cards Grid */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--gray-light), #e8f4fd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .card-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .card-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .card-success {
+            border-left-color: var(--success);
+        }
+
+        .card-warning {
+            border-left-color: var(--warning);
+        }
+
+        .card-danger {
+            border-left-color: var(--danger);
+        }
+
+        /* Charts and Tables */
+        .dashboard-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section-header a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            height: 300px;
+            width: 100%;
+            position: relative;
+        }
+
+        .chart-placeholder {
+            height: 100%;
+            background: #f8fbff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Appointments Table */
+        .appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .appointments-table th {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .appointments-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .patient-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-confirmed {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .status-cancelled {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+        }
+
+        /* Recent Activity */
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .activity-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .activity-content p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .dashboard-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .user-profile h3, .user-profile p, .sidebar-menu span {
+                display: none;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 15px 5px;
+            }
+
+            .sidebar-menu a i {
+                margin-right: 0;
+            }
+
+            .dashboard-main {
+                padding: 20px;
+            }
+
+            /* Show mobile menu, hide desktop nav on tablet */
+            nav ul, .header-cta {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding-top: 70px;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dashboard-header h1 {
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-sidebar {
+                position: fixed;
+                top: 70px;
+                left: -250px;
+                height: calc(100vh - 70px);
+                z-index: 999;
+                transition: left 0.3s ease;
+            }
+
+            .dashboard-sidebar.active {
+                left: 0;
+            }
+
+            .dashboard-main {
+                width: 100%;
+            }
+        }
+
+        /* Mobile Sidebar Toggle */
+        .sidebar-toggle {
+            display: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .appointments-table thead {
+        display: none;
+    }
+
+    .appointments-table tr {
+        display: block;
+        background: #fff;
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    }
+
+    .appointments-table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: none !important;
+        font-size: 14px;
+    }
+
+    .appointments-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--dark);
+        text-align: left;
+    }
+
+    .patient-info {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .patient-info div h4,
+    .patient-info div p {
+        font-size: 14px;
+    }
+
+    .cta-button {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with same navbar as main site -->
+<header id="header">
+    <a href="index.html" class="logo">
+    <img src="./image/Untitled design.webp" alt="STACKLY Logo" class="logo-img">
+        <span>Stackly</span> Plus
+    </a>
+    <nav class="desktop-nav">
+        <ul>
+            <li class="dropdown">
+                <a href="./index.html">Home <i class="fas fa-chevron-down dropdown-arrow"></i></a>
+                <div class="dropdown-content">
+                    <a href="./index.html"><i class="fas fa-home"></i> Home 1</a>
+                    <a href="./home2.html"><i class="fas fa-home"></i> Home 2</a>
+                </div>
+            </li>
+            <li><a href="./services.html">Services</a></li>
+            <li><a href="./departments.html">Departments</a></li>
+            <li><a href="./about.html">About</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./dashboard.html" class="active">Dashboard</a></li>
+            <li><a href="./login.html">Login</a></li>
+        </ul>
+    </nav>
+    <a href="login.html"><button class="cta-button header-cta" id="bookAppointment">Book Appointment</button></a>
+    <div class="mobile-menu" id="mobileMenu">
+        <i class="fas fa-bars"></i>
+    </div>
+</header>
+
+<!-- Mobile Navigation - Fixed Structure -->
+<div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+        
+        <button class="mobile-nav-close" id="closeMobileNav">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <ul>
+        <li class="mobile-dropdown">
+            <a href="javascript:void(0)" class="mobile-dropdown-toggle">Home <i class="fas fa-chevron-down"></i></a>
+            <div class="mobile-dropdown-content">
+                <a href="./index.html"><i class="fas fa-home"></i> Home1</a>
+                <a href="./home2.html"><i class="fas fa-home"></i> Home2</a>
+            </div>
+        </li>
+        <li><a href="./services.html">Services</a></li>
+        <li><a href="./departments.html">Departments</a></li>
+        <li><a href="./about.html">About</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="./login.html">Login</a></li>
+    </ul>
+    <a href="login.html" style="width: 100%;"><button class="cta-button" id="mobileAppointment">Book Appointment</button></a>
+</div>
+<div class="overlay" id="overlay"></div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Dashboard Sidebar -->
+        <div class="dashboard-sidebar" id="dashboardSidebar">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3>Dr. Sarah Johnson</h3>
+                <p>Cardiologist</p>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="./404.html" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                <li><a href="./404.html"><i class="fas fa-calendar-check"></i> <span>Appointments</span></a></li>
+                <li><a href="./404.html"><i class="fas fa-users"></i> <span>Patients</span></a></li>
+                <li><a href="./404.html"><i class="fas fa-file-medical"></i> <span>Medical Records</span></a></li>
+                <li><a href="./404.html"><i class="fas fa-prescription-bottle-alt"></i> <span>Prescriptions</span></a></li>
+                <li><a href="./404.html"><i class="fas fa-credit-card"></i> <span>Billing</span></a></li>
+                <li><a href="./404.html"><i class="fas fa-chart-bar"></i> <span>Reports</span></a></li>
+                <li><a href="./404.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="./index.html" style="display: flex; align-items: center; color: var(--primary); padding: 10px; border-radius: 8px; background: rgba(26, 115, 232, 0.1);">
+                    <i class="fas fa-arrow-left"></i>
+                    <span style="margin-left: 10px;">Back to Main Site</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Main Content -->
+        <div class="dashboard-main">
+            <div class="dashboard-header">
+                <h1>Dashboard Overview</h1>
+                <div class="dashboard-date" id="currentDate"></div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="todayAppointments">12</h3>
+                        <p>Today's Appointments</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card card-success">
+                    <div class="card-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="totalPatients">245</h3>
+                        <p>Total Patients</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card card-warning">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="pendingAppointments">7</h3>
+                        <p>Pending Appointments</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card card-danger">
+                    <div class="card-icon">
+                        <i class="fas fa-procedures"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="availableBeds">18</h3>
+                        <p>Available Beds</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Tables Row -->
+            <div class="dashboard-row">
+                <!-- Patient Statistics Chart -->
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Patient Statistics</h2>
+                        <a href="./404.html">View Details</a>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line" style="font-size: 40px; margin-right: 15px; color: var(--primary);"></i>
+                            <div>
+                                <h3>Patient Visits This Month</h3>
+                                <p>Chart would display here with a JavaScript library like Chart.js</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Recent Activity</h2>
+                        <a href="./404.html">See All</a>
+                    </div>
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-calendar-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>New Appointment Scheduled</h4>
+                                <p>John Doe - Cardiology</p>
+                                <div class="activity-time">10:30 AM</div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-prescription-bottle-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Prescription Updated</h4>
+                                <p>For Patient: Maria Garcia</p>
+                                <div class="activity-time">9:15 AM</div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-file-medical"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Lab Results Received</h4>
+                                <p>Blood Test - Robert Chen</p>
+                                <div class="activity-time">Yesterday</div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>New Patient Registered</h4>
+                                <p>Sarah Williams</p>
+                                <div class="activity-time">Yesterday</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Today's Appointments Table -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>Today's Appointments</h2>
+                    <a href="./404.html">View All Appointments</a>
+                </div>
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Time</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                           <tr>
+    <td data-label="Patient">
+        <div class="patient-info">
+            <div class="patient-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <h4>Michael Brown</h4>
+                <p>ID: #PT00123</p>
+            </div>
+        </div>
+    </td>
+
+    <td data-label="Time">9:00 AM</td>
+    <td data-label="Department">Cardiology</td>
+    <td data-label="Status"><span class="status-badge status-confirmed">Confirmed</span></td>
+    <td data-label="Action">
+        <a href="./404.html"><button class="cta-button" style="padding: 8px 15px; font-size: 0.8rem;">View</button></a>
+    </td>
+</tr>
+
+                            <tr>
+    <td data-label="Patient">
+        <div class="patient-info">
+            <div class="patient-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <h4>Emily Davis</h4>
+                <p>ID: #PT00124</p>
+            </div>
+        </div>
+    </td>
+
+    <td data-label="Time">9:00 AM</td>
+    <td data-label="Department">Cardiology</td>
+    <td data-label="Status"><span class="status-badge status-confirmed">Confirmed</span></td>
+    <td data-label="Action">
+        <a href="./404.html"><button class="cta-button" style="padding: 8px 15px; font-size: 0.8rem;">View</button></a>
+    </td>
+</tr>
+
+                           <tr>
+    <td data-label="Patient">
+        <div class="patient-info">
+            <div class="patient-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <h4>James Wilson</h4>
+                <p>ID: #PT00125</p>
+            </div>
+        </div>
+    </td>
+
+    <td data-label="Time">9:00 AM</td>
+    <td data-label="Department">Cardiology</td>
+    <td data-label="Status"><span class="status-badge status-confirmed">Confirmed</span></td>
+    <td data-label="Action">
+        <a href="./404.html"><button class="cta-button" style="padding: 8px 15px; font-size: 0.8rem;">View</button></a>
+    </td>
+</tr>
+
+                            <tr>
+    <td data-label="Patient">
+        <div class="patient-info">
+            <div class="patient-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <h4>Sophia Martinez</h4>
+                <p>ID: #PT00126</p>
+            </div>
+        </div>
+    </td>
+
+    <td data-label="Time">9:00 AM</td>
+    <td data-label="Department">Cardiology</td>
+    <td data-label="Status"><span class="status-badge status-confirmed">Confirmed</span></td>
+    <td data-label="Action">
+        <a href="./404.html"><button class="cta-button" style="padding: 8px 15px; font-size: 0.8rem;">View</button></a>
+    </td>
+</tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // =========================
+    // HEADER SCROLL EFFECT
+    // =========================
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // =========================
+    // MOBILE MENU FUNCTIONALITY
+    // =========================
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileNav = document.getElementById('mobileNav');
+    const overlay = document.getElementById('overlay');
+    const closeMobileNav = document.getElementById('closeMobileNav');
+
+    // Function to open mobile navigation
+    function openMobileNav() {
+        mobileNav.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Function to close mobile navigation
+    function closeMobileNavFunc() {
+        mobileNav.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        
+        // Close all mobile dropdowns
+        const mobileDropdowns = document.querySelectorAll('.mobile-dropdown-content');
+        const mobileToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+        mobileDropdowns.forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
+        mobileToggles.forEach(toggle => {
+            toggle.classList.remove('active');
+        });
+    }
+
+    // Event Listeners for mobile menu
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', openMobileNav);
+    }
+    
+    if (closeMobileNav) {
+        closeMobileNav.addEventListener('click', closeMobileNavFunc);
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', closeMobileNavFunc);
+    }
+
+    // =========================
+    // MOBILE DROPDOWN TOGGLE
+    // =========================
+    const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+
+    mobileDropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const dropdown = this.nextElementSibling;
+            const isActive = dropdown.classList.contains('active');
+            
+            // Close all other dropdowns first
+            document.querySelectorAll('.mobile-dropdown-content').forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('active');
+                }
+            });
+            
+            document.querySelectorAll('.mobile-dropdown-toggle').forEach(t => {
+                if (t !== this) {
+                    t.classList.remove('active');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    });
+
+    // =========================
+    // CLOSE MOBILE NAV WHEN CLICKING LINKS
+    // =========================
+    const mobileLinks = document.querySelectorAll('.mobile-nav a:not(.mobile-dropdown-toggle)');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileNavFunc);
+    });
+
+    // =========================
+    // DASHBOARD FUNCTIONALITY
+    // =========================
+    // Set current date
+    const currentDate = document.getElementById('currentDate');
+    if (currentDate) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        currentDate.textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    // Update dashboard stats (simulated)
+    function updateDashboardStats() {
+        const todayAppointments = document.getElementById('todayAppointments');
+        const pendingAppointments = document.getElementById('pendingAppointments');
+
+        if (todayAppointments && pendingAppointments) {
+            // Random updates for demo purposes
+            setInterval(() => {
+                const newTodayAppointments = Math.floor(Math.random() * 5) + 10;
+                todayAppointments.textContent = newTodayAppointments;
+
+                const newPendingAppointments = Math.floor(Math.random() * 3) + 5;
+                pendingAppointments.textContent = newPendingAppointments;
+            }, 5000);
+        }
+    }
+
+    // Initialize dashboard
+    updateDashboardStats();
+
+    // =========================
+    // SIDEBAR TOGGLE FOR MOBILE
+    // =========================
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const dashboardSidebar = document.getElementById('dashboardSidebar');
+
+    if (sidebarToggle && dashboardSidebar) {
+        sidebarToggle.addEventListener('click', () => {
+            dashboardSidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking on links (mobile only)
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                sidebarLinks.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Close sidebar on mobile after clicking a link
+                if (window.innerWidth <= 576) {
+                    dashboardSidebar.classList.remove('active');
+                }
+            });
+        });
+    }
+
+    // Close sidebar when clicking on overlay
+    if (overlay && dashboardSidebar) {
+        overlay.addEventListener('click', () => {
+            dashboardSidebar.classList.remove('active');
+        });
+    }
+
+    // =========================
+    // APPOINTMENT BUTTONS
+    // =========================
+    const appointmentButtons = document.querySelectorAll('#bookAppointment, #mobileAppointment');
+    appointmentButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992) {
+                e.preventDefault();
+                alert('Appointment booking would open a form here. For demo, this is just a notification.');
+                closeMobileNavFunc();
+            }
+        });
+    });
+
+    // =========================
+    // RESPONSIVE ADJUSTMENTS
+    // =========================
+    window.addEventListener('resize', () => {
+        // Reset sidebar on larger screens
+        if (dashboardSidebar && window.innerWidth > 576) {
+            dashboardSidebar.classList.remove('active');
+        }
+        
+        // Hide mobile menu on larger screens
+        if (window.innerWidth > 992) {
+            closeMobileNavFunc();
+        }
+    });
+
+    // Initialize sidebar toggle visibility
+    if (sidebarToggle && window.innerWidth <= 576) {
+        sidebarToggle.style.display = 'flex';
+    } else if (sidebarToggle) {
+        sidebarToggle.style.display = 'none';
+    }
+
+    // =========================
+    // DESKTOP DROPDOWN FUNCTIONALITY
+    // =========================
+    const desktopDropdowns = document.querySelectorAll('.dropdown');
+    
+    desktopDropdowns.forEach(dropdown => {
+        dropdown.addEventListener('mouseenter', function() {
+            const dropdownContent = this.querySelector('.dropdown-content');
+            if (dropdownContent) {
+                dropdownContent.style.opacity = '1';
+                dropdownContent.style.visibility = 'visible';
+                dropdownContent.style.transform = 'translateY(0)';
+            }
+        });
+        
+        dropdown.addEventListener('mouseleave', function() {
+            const dropdownContent = this.querySelector('.dropdown-content');
+            if (dropdownContent) {
+                dropdownContent.style.opacity = '0';
+                dropdownContent.style.visibility = 'hidden';
+                dropdownContent.style.transform = 'translateY(10px)';
+            }
+        });
+    });
+</script>
+</body>
+</html>
